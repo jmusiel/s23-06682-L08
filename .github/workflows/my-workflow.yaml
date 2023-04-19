@@ -3,11 +3,19 @@ on: push
 
 jobs:
 
-  my_third_job:
+  black:
     runs-on: ubuntu-latest
     steps:      
       - uses: actions/checkout@v3
       - run: |
           pip install black
           black --check .
+        
+  pytest:
+    runs-on: ubuntu-latest
+    steps:      
+      - uses: actions/checkout@v3
+      - run: |
+          pip install matplotlib requests IPython pytest
+          pytest .
 
