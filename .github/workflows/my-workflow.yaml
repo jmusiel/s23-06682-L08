@@ -1,0 +1,11 @@
+name: First job
+on: push
+
+jobs:
+  my_first_job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          pwd 
+          ls -alF
+
