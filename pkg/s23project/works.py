@@ -4,7 +4,7 @@ import base64
 import requests
 import matplotlib.pyplot as plt
 from IPython.core.pylabtools import print_figure
-from IPython.display import HTML
+from IPython.display import display, HTML
 import bibtexparser
 
 
@@ -140,7 +140,8 @@ class Works:
         uri = f'<pre>{ris}<pre><br><a href="data:text/plain;base64,'
         uri += f'{ris64}" download="ris">Download RIS</a>'
 
-        return HTML(uri)
+        display(HTML(uri))
+        return ris
 
     def related_works(self):
         """Get list of related works."""
