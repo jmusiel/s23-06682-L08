@@ -7,6 +7,7 @@ jobs:
     steps:      
       - uses: actions/checkout@v3
       - run: |
+          pip install bibtexparser
           pip install matplotlib requests IPython pytest
           pytest .
     
