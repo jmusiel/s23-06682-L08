@@ -9,7 +9,7 @@ setup(
     maintainer="Joseph Musielewicz",
     maintainer_email="jmus@cmu.edu",
     license="MIT",
-    packages=["s23project"],
+    packages=["s23project", "bibtexparser"],
     scripts=[],
     long_description="""A set of OpenAlex utilities for creating bibtex entries.""",
 )
