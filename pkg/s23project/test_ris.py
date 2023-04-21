@@ -1,5 +1,5 @@
 """Pytest RIS formatting from works class."""
-from s23oa import Works
+from s23project import Works
 
 
 REF_RIS = """TY  - JOUR
