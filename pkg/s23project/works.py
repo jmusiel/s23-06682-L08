@@ -2,8 +2,6 @@
 import time
 import base64
 import requests
-import matplotlib.pyplot as plt
-from IPython.core.pylabtools import print_figure
 from IPython.display import display, HTML
 import bibtexparser
 
@@ -53,61 +51,6 @@ class Works:
         open_alex_id = self.data["id"]
         return_string = f"\n{authors}, {title}, {volume}{issue}{pages}, ({year}), "
         return_string += f'{self.data["doi"]}. cited by: {citedby}. {open_alex_id}'
-        return return_string
-
-    def _repr_markdown_(self):
-        _authors = [
-            f'[{au["author"]["display_name"]}]({au["author"]["id"]})'
-            for au in self.data["authorships"]
-        ]
-        if len(_authors) == 1:
-            authors = _authors[0]
-        else:
-            authors = ", ".join(_authors[0:-1]) + " and " + _authors[-1]
-
-        title = self.data["title"]
-
-        journal = f"[{self.data['host_venue']['display_name']}]({self.data['host_venue']['id']})"
-        volume = self.data["biblio"]["volume"]
-
-        issue = self.data["biblio"]["issue"]
-        if issue is None:
-            issue = ", "
-        else:
-            issue = ", " + issue
-
-        pages = "-".join(
-            [
-                self.data["biblio"].get("first_page", "") or "",
-                self.data["biblio"].get("last_page", "") or "",
-            ]
-        )
-        year = self.data["publication_year"]
-        citedby = self.data["cited_by_count"]
-
-        open_alex_id = self.data["id"]
-
-        # Citation counts by year
-        years = [e["year"] for e in self.data["counts_by_year"]]
-        counts = [e["cited_by_count"] for e in self.data["counts_by_year"]]
-
-        fig, ax_0 = plt.subplots()
-        ax_0.bar(years, counts)
-        ax_0.set_xlabel("year")
-        ax_0.set_ylabel("citation count")
-        data = print_figure(fig, "png")  # save figure in string
-        plt.close(fig)
-
-        b64 = base64.b64encode(data).decode("utf8")
-        citefig = f"![img](data:image/png;base64,{b64})"
-
-        return_string = (
-            f"{authors}, *{title}*, **{journal}**, {volume}{issue}{pages}, ({year}), "
-        )
-        return_string += (
-            f'{self.data["doi"]}. cited by: {citedby}. [Open Alex]({open_alex_id})'
-        )
-        return_string += "<br>" + citefig
         return return_string
 
     @property
