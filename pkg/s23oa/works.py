@@ -51,7 +51,7 @@ class Works:
         citedby = self.data["cited_by_count"]
 
         open_alex_id = self.data["id"]
-        return_string = f'\n{authors}, {title}, {volume}{issue}{pages}, ({year}), '
+        return_string = f"\n{authors}, {title}, {volume}{issue}{pages}, ({year}), "
         return_string += f'{self.data["doi"]}. cited by: {citedby}. {open_alex_id}'
         return return_string
 
@@ -101,8 +101,12 @@ class Works:
         b64 = base64.b64encode(data).decode("utf8")
         citefig = f"![img](data:image/png;base64,{b64})"
 
-        return_string = f'{authors}, *{title}*, **{journal}**, {volume}{issue}{pages}, ({year}), '
-        return_string += f'{self.data["doi"]}. cited by: {citedby}. [Open Alex]({open_alex_id})'
+        return_string = (
+            f"{authors}, *{title}*, **{journal}**, {volume}{issue}{pages}, ({year}), "
+        )
+        return_string += (
+            f'{self.data["doi"]}. cited by: {citedby}. [Open Alex]({open_alex_id})'
+        )
         return_string += "<br>" + citefig
         return return_string
 
