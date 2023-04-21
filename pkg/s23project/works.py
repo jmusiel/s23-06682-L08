@@ -115,7 +115,20 @@ class Works:
         return refs
 
     @property
-    def bibtex(self):
+    def bibtex(
+        self,
+        abstract=False,
+        author=True,
+        title=True,
+        journal=True,
+        volume=True,
+        number=True,
+        pages=True,
+        year=True,
+        doi=True,
+        url=True,
+        eprint=True,
+    ):
         """Return parsed bibtex string."""
         bib = bibtexparser.bibdatabase.BibDatabase()
 
@@ -138,25 +151,37 @@ class Works:
         abstract_string = abstract_string.strip()
 
         # create bib dictionary to feed into parser to dump to string
-        bib_dict = {
-            "journal": self.data["host_venue"]["display_name"],
-            # 'comments': '',
-            "pages": self.data["biblio"]["first_page"]
-            + "-"
-            + self.data["biblio"]["last_page"],
-            "abstract": abstract_string,
-            "title": self.data["title"],
-            "year": str(self.data["publication_year"]),
-            "volume": self.data["biblio"]["volume"],
-            "ID": [a["author"]["display_name"] for a in self.data["authorships"]][
-                0
-            ].split(" ")[-1]
-            + str(self.data["publication_year"]),
-            "author": ", ".join(
+        bib_dict = {}
+        bib_dict["ID"] = [a["author"]["display_name"] for a in self.data["authorships"]][0].split(" ")[-1] + str(self.data["publication_year"])
+        bib_dict["ENTRYTYPE"] = self.data["type"]
+
+        if abstract:
+            bib_dict["abstract"] = abstract_string
+        if author:
+            bib_dict["author"] = ", ".join(
                 [a["author"]["display_name"] for a in self.data["authorships"]]
-            ),
-            # 'keyword': '',
-            "ENTRYTYPE": self.data["type"],
-        }
+            )
+        if title:
+            bib_dict["title"] = self.data["title"]
+        if journal:
+            bib_dict["journal"] = self.data["host_venue"]["display_name"]
+        if volume:
+            bib_dict["volume"] = self.data["biblio"]["volume"]
+        if number:
+            bib_dict["number"] = self.data['biblio']['issue']
+        if pages:
+            bib_dict["pages"] = (
+                self.data["biblio"]["first_page"]
+                + "-"
+                + self.data["biblio"]["last_page"]
+            )
+        if year:
+            bib_dict["year"] = str(self.data["publication_year"])
+        if doi:
+            bib_dict["doi"] = self.data['doi'].replace("https://doi.org/","")
+        if url:
+            bib_dict["URL"] = self.data['primary_location']['landing_page_url']
+        if eprint:
+            bib_dict["eprint"] = self.data['primary_location']['landing_page_url']
         bib.entries = [bib_dict]
         return bibtexparser.dumps(bib)
