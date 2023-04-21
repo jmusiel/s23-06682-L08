@@ -152,7 +152,9 @@ class Works:
 
         # create bib dictionary to feed into parser to dump to string
         bib_dict = {}
-        bib_dict["ID"] = [a["author"]["display_name"] for a in self.data["authorships"]][0].split(" ")[-1] + str(self.data["publication_year"])
+        bib_dict["ID"] = [
+            a["author"]["display_name"] for a in self.data["authorships"]
+        ][0].split(" ")[-1] + str(self.data["publication_year"])
         bib_dict["ENTRYTYPE"] = self.data["type"]
 
         if abstract:
@@ -168,7 +170,7 @@ class Works:
         if volume:
             bib_dict["volume"] = self.data["biblio"]["volume"]
         if number:
-            bib_dict["number"] = self.data['biblio']['issue']
+            bib_dict["number"] = self.data["biblio"]["issue"]
         if pages:
             bib_dict["pages"] = (
                 self.data["biblio"]["first_page"]
@@ -178,10 +180,10 @@ class Works:
         if year:
             bib_dict["year"] = str(self.data["publication_year"])
         if doi:
-            bib_dict["doi"] = self.data['doi'].replace("https://doi.org/","")
+            bib_dict["doi"] = self.data["doi"].replace("https://doi.org/", "")
         if url:
-            bib_dict["URL"] = self.data['primary_location']['landing_page_url']
+            bib_dict["URL"] = self.data["primary_location"]["landing_page_url"]
         if eprint:
-            bib_dict["eprint"] = self.data['primary_location']['landing_page_url']
+            bib_dict["eprint"] = self.data["primary_location"]["landing_page_url"]
         bib.entries = [bib_dict]
         return bibtexparser.dumps(bib)
