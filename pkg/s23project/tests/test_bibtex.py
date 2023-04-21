@@ -1,4 +1,4 @@
-"""Pytest RIS formatting from works class."""
+"""Pytest bibtex formatting from works class."""
 from s23project import Works
 
 
